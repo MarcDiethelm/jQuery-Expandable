@@ -104,7 +104,7 @@
 			var $content = $(".ui-widget-content", this);
 
 			if ( options.startopen ) {
-				$this.data("state", "open").addClass("ui-expandable-open"); // FIXME: this is not a expandable default, but an OBP addition
+				$this.data("state", "open");
 			} else {
 				$this.data("state", "closed");
 				$content.hide();

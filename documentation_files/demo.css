@@ -1,0 +1,60 @@
+
+
+body {
+	font-family: serif;
+	font-size: 11px;
+	font-size: .75em;
+	font-size-adjust: .58;
+	max-width: 988px;
+}
+.ui-widget {
+	font-size: inherit;
+}
+.intro-box {
+	border: 1px dotted #666666;
+	padding: 25px 15px;
+	margin-bottom: 50px;
+}
+/*.em { font-family: Arial,Helvetica,sans-serif; }*/
+#container-1 {
+	margin-top: 15px;
+}
+.ui-expandable img.domo {
+	float: left;
+	margin: 4px 20px 5px 0;
+}
+#container-2, #container-4 {
+	margin-bottom: 40px;
+}
+#tabs {
+	min-width: 80em;
+}
+.code {
+	white-space: pre;
+	font-family: monospace;
+	font-size-adjust: .65;
+	line-height: 1.5em;
+	padding: 0 15px;
+}
+.code .required {
+	color: blue;
+}
+.reference {
+	min-width: 75em;
+	font-size: 1em;
+}
+.reference .code {
+	float: left;
+	line-height: 1.70em;
+}
+.reference .text {
+	float: left;
+	white-space: nowrap;
+	padding: 0 15px;
+}
+.type {
+	font-weight: bold;
+}
+.em {
+	font-weight: bold;
+}

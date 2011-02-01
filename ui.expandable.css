@@ -30,8 +30,8 @@
 	border-color: transparent;
 	border-style: solid;
 }
-.ui-expandable-extraicon.ui-state-hover ,
-.ui-expandable-extraicon.ui-state-focus {
+.ui-widget-header .ui-expandable-extraicon.ui-state-hover,
+.ui-widget-header .ui-expandable-extraicon.ui-state-focus {
 	border-width: 0 0 0 1px;
 	border-color: inherit;
 }
@@ -48,9 +48,9 @@
 	margin: 0;
 	padding: 0;
 }*/
-/* many such corrections could be made I suppose:
+/* many such corrections could be made I suppose: */
 .ui-expandable .ui-widget-content ul,
 .ui-expandable .ui-widget-content ol,
 .ui-expandable .ui-widget-content dl {
 	padding-left: 15px;
-}*/
+}

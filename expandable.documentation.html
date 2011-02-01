@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jQuery Expandable Documentation</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<link rel="stylesheet" href="ui.expandable.css" type="text/css">
+
+	<!-- jQuery UI is optional (for now!). But it's worth it. -->
+	<link rel="stylesheet" href="jquery/jqueryui-1.8.9-css/jquery.ui.core.css" type="text/css">
+	<link rel="stylesheet" href="jquery/jqueryui-1.8.9-css/jquery.ui.theme.css" type="text/css">
+
+	<script type="text/javascript" src="jquery/jquery-1.4.4.min.js"></script><!-- jquery library-->
+	<script type="text/javascript" src="ui.expandable.js"></script><!-- the plugin -->
+
+	<!-- NEEDED FOR THIS DEMO -->
+	<link rel="stylesheet" href="documentation_files/demo.css" type="text/css">
+	<link rel="stylesheet" href="documentation_files/jqueryui-1.8.9/jquery.ui.tabs.css" type="text/css">
+	<script type="text/javascript" src="documentation_files/jqueryui-1.8.9/jquery.ui.core.min.js"></script>
+	<script type="text/javascript" src="documentation_files/jqueryui-1.8.9/jquery.ui.widget.min.js"></script>
+	<script type="text/javascript" src="documentation_files/jqueryui-1.8.9/jquery.ui.tabs.min.js"></script>
+
+	<script type="text/javascript">
+
+		jQuery(document).ready( function($) {
+
+			$("#tabs").tabs();
+
+			$("#container-2").expandable({ // all available options configured:
+				startopen: true,
+				title: "Expandable with options set",
+				tooltip: "Don't click me!",
+				uiIconClosed: "ui-icon-circle-triangle-e",
+				uiIconOpen: "ui-icon-circle-triangle-s",
+					//uiIconClosed: "ui-icon-triangle-1-e",	<-- default
+					//uiIconOpen: "ui-icon-triangle-1-s",	<-- default
+				animationClose: { height: "hide" },
+				animationOpen: { height: "show" },
+				duration: 1500,
+				easing: "swing",
+				open: function (event, options)
+				{
+					alert("[callback]\n\nopen()");
+					/*console.log("open");
+					console.log(event);
+					console.log(options);
+					console.log(this);*/
+				},
+				closed: function (event, options)
+				{
+					alert("[callback]\n\nclosed()")
+					/*console.log("closed");
+					console.log(event);
+					console.log(options);
+					console.log(this);*/
+				},
+				opening: function(event, options)
+				{
+					alert("[callback]\n\nopening()");
+				},
+				closing: function(event, options)
+				{
+					alert("[callback]\n\nclosing()");
+				},
+				headerClick: function()
+				{
+					alert("[callback]\n\nheaderClick()");
+					return true; // return false to cancel default action
+				},
+				headerHover: function(over, event, options)	// default
+				{
+					if ( over ) {
+						$(this).addClass("ui-state-hover");
+					} else {
+						$(this).removeClass("ui-state-hover");
+					}
+				},
+				extraicon: "ui-icon-close",
+				extraiconClick: function(event, options)
+				{
+					$(this).animate({width: "20%"});
+					return false; // prevent event bubbling
+				},
+				extraiconHover: function(over, event, options)	// default
+				{
+					if ( over ) {
+						$(this).addClass("ui-state-hover");
+					} else {
+						$(this).removeClass("ui-state-hover");
+					}
+				},
+				iconMarginTop: null, // force margin, workaround for jQuery bug #4500. only applied if innerHeight of the header returns 0.
+				iconMarginBottom: null // use number of pixels: eg 2
+			});
+
+			$("#container-4").expandable({title:"Expandable with extra CSS"});
+
+		});
+
+
+	</script>
+
+	<style type="text/css">
+		/*
+		 * EXAMPLE 4: test some overriding style rules
+		 * overrides jQuery UI styles (if available)
+		 */
+		#container-4.ui-expandable {
+			border: 2px dotted pink;
+			border-width: 2px 0;
+			font-size: 11px;
+			font-family: Arial,Helvetica,sans-serif;
+			width: 400px;
+		}
+		#container-4.ui-expandable .ui-widget-header {
+			font-weight: bold;
+			font-size: 18px;
+			letter-spacing: 125%;
+			background: none;
+			border: none;
+		}
+		#container-4 .ui-widget-header.ui-state-hover {
+			background-color: #ffeeee;
+			color: #000000;
+		}
+		#container-4.ui-expandable-open .ui-widget-header.ui-state-hover {
+			outline: 1px dotted #cccccc;
+			outline-width: 0 0 1px 0; /* fails in firefox */
+		}
+		#container-4.ui-expandable .ui-widget-content {
+			border: none;
+			padding: 0 0 5px 18px;
+		}
+		#container-4.ui-expandable .ui-widget-content:first-letter { /* ignored because of img. Firefox bug? */
+			font-weight: bold;
+			font-size: 200%;
+		}
+		#container-4.ui-expandable .ui-widget-header .ui-icon.icon-closed {
+			background-image: url(expandable-open.png);
+		}
+		#container-4.ui-expandable .ui-widget-header .ui-icon.icon-open {
+			background-image: url(expandable-closed.png);
+		}
+
+		/*
+		 * SOME SPECIAL CASES YOU MAY ENCOUNTER
+		 */
+
+		/* how to deal with titles clinging to top of header due to small font size:
+		 * set line-height to header height
+		.ui-expandable .ui-widget-header * {
+			font-size: 8px;
+			line-height: 16px;
+		}*/
+		/* if that doesn't work you can still force it
+		 .ui-expandable .ui-widget-header .ui-expandable-title {
+			position: relative;
+			top: 2px;
+		}*/
+
+		/* can help if title is empty (and not using jQuery UI):
+		#container-3.ui-expandable .ui-widget-header.ui-state-hover {
+			outline: 1px dotted #dddddd;
+		}*/
+
+	</style>
+</head>
+
+<body>
+
+	<p>
+		<small><a href="javascript:(function(){if%20(!/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){alert('Sorry,%20due%20to%20security%20restrictions,%20this%20tool%20only%20works%20in%20Firefox');%20return%20false;%20};%20if(window.jquitr){%20jquitr.addThemeRoller();%20}%20else{%20jquitr%20=%20{};%20jquitr.s%20=%20document.createElement('script');%20jquitr.s.src%20=%20'http://jqueryui.com/themeroller/developertool/developertool.js.php';%20document.getElementsByTagName('head')[0].appendChild(jquitr.s);}%20})();"
+			>Load ThemeRoller into this page</a>! (Only works in Firefox and if this page was served through HTTP.)</small>
+	</p>
+
+	<div class="intro-box">
+	<!-- Demo Stuff -->
+		<h3>jQuery Expandable plugin</h3>
+		<br/>
+		Default Expandable (zero configuration)
+		<br/><br/>
+
+		<input id="make" type="button" value='$(selector).expandable()'
+			onmouseup='$("#container-1").expandable(); $("#open-close").animate({"opacity":1}, 1000).children().removeAttr("disabled");'/>
+		<input id="make" type="button" value='$(selector).expandable("destroy")'
+			onmouseup='$("#container-1").expandable("destroy"); $("#open-close").animate({"opacity":0}, 1000).children().attr("disabled","disabled");'/>
+		<span id="open-close" style="opacity:0;">
+			<input id="make" type="button" value='$(selector).expandable("open")' onmouseup='$("#container-1").expandable("open")' disabled="disabled">
+			<input id="make" type="button" value='$(selector).expandable("close")' onmouseup='$("#container-1").expandable("close")' disabled="disabled">
+		</span>
+
+		<br/><br/>
+	<!-- END Demo Stuff -->
+
+	<!-- HTML TEMPLATE 1, /w title mark up -->
+
+		<div id="container-1">
+			<div class="ui-expandable-title">Info</div>
+
+			<ul>
+				<li>
+					This plugin provides you with a elegant and minimalistic animated widget to group and hide content from view.
+					Click the first button above to see it in action.
+				</li>
+				<li>
+					The Expandable widget is intended to be used with jQuery UI 1.6rc4+. It makes use of the jQuery UI CSS framework and is thus theme-able.
+					It can however currently be used without jQuery UI,
+					you just have to style the widget yourself; see tab &quot;CSS / without jQuery UI&quot;.
+				</li>
+				<li>
+					The default version of this plugin is very easy to use.
+					You can however manipulate many options with little effort and take control over the look and feel of your widget.
+				<li>
+				<li>
+					There is currently a bug in jQuery that, if a parent of the expandable has display:none,
+					prevents the icons in the header from being re-positioned in the middle when the widget is created. There is also a workaround, see tab Special.
+				</li>
+				<li>
+					Do you like this widget but your use case is not supported well enough?
+					I'm interested in learning what I didn't think about. And I'd love to hear how you're using the expandable.
+					Get in touch! Please leave a comment on the <a href="http://code.google.com/p/marcd/wiki/Expandable">development site</a> at code.google.com.
+				</li>
+			</ul>
+		</div>
+
+
+	</div>
+
+	<!-- END HTML TEMPLATE 1 -->
+
+
+
+	<div id="tabs">
+		<!-- tabs -->
+		<ul>
+			<li><a href="#tabs-1"><span>Basics</span></a></li>
+			<li><a href="#tabs-2"><span>Options</span></a></li>
+			<li><a href="#tabs-3"><span>CSS / Without jQuery UI</span></a></li>
+			<li><a href="#tabs-4"><span>Special Cases</span></a></li>
+		</ul>
+		<!-- tabbed content -->
+		<div id="tabs-1">
+			<p>
+				With jQuery UI setting up the expandable should be really pretty easy. First you need to get your HTML template for the expandable widget in place. The template will be converted into an expandable when calling the expandable method.
+			</p>
+			<div class="code ui-state-highlight">
+&lt;div id="box-1" class="expandable-1"&gt;
+	&lt;div class="ui-expandable-title"&gt;Your Title&lt;/div&gt;
+	Your Content here.
+&lt;/div&gt;
+			</div>
+			<p>
+				If you want to set the title programmatically, or need no title at all, just leave out the title div (.ui-expandable-title).
+			</p>
+			<p>
+				Before you can set up your Expandables be sure to load all the relevant files in the HTML head:
+			</p>
+			<div class="code ui-state-highlight">
+<span class="required">&lt;link rel="stylesheet" href="ui.expandable.css" type="text/css" /&gt;</span>
+&lt;link rel="stylesheet" href="jquery/ui.core.css" type="text/css" /&gt;
+&lt;link rel="stylesheet" href="jquery/ui.theme.css" type="text/css" /&gt;
+
+<span class="required">&lt;script type="text/javascript" src="jquery/jquery-1.4.4.min.js"&gt;&lt;/script&gt;</span>
+<span class="required">&lt;script type="text/javascript" src="ui.expandable.js"&gt;&lt;/script&gt;</span>
+			</div>
+			<p>
+				The files in blue are required for the Expandable to function. The rest can be done without (see tab: 'Without jQuery UI).
+				If the expandable does not look or behave as expected double-check if
+				the paths are correct and the scripts and style sheets are really being loaded. You can use
+				<a href="http://www.getfirebug.com/">Firebug's</a> Net tab for that.
+			</p>
+			<p>
+				Now you're all set up to initalize your Expandable:
+			</p>
+			<div class="code ui-state-highlight">
+&lt;script&gt;
+	jQuery(function($) {
+		$(".expandable-1").expandable();
+	});
+&lt;/script&gt;
+			</div>
+
+			<p>
+				The result should look like this:
+			</p>
+
+			<div id="box-1" class="expandable-1">
+				<div class="ui-expandable-title">Your Title</div>
+				Your Content here.
+			</div>
+			<script>
+				jQuery(function() {
+					$(".expandable-1").expandable();
+				});
+			</script>
+
+			<br/>
+
+			<p>
+				The content in the expandable has a default padding, you can easily override this in your own style sheet. See the CSS tab for more info.
+			</p>
+		</div>
+
+
+		<div id="tabs-2">
+
+			<p>
+				The simplest 'option' is to leave out the title, as described in the previous tab:
+			</p>
+
+			<div class="code ui-state-highlight">
+&lt;div id="box-1" class="expandable-1"&gt;
+	Your Content here.
+&lt;/div&gt;
+			</div>
+
+			<p>
+				Which looks like this:
+			</p>
+
+			<div class="expandable-1">
+				Your content
+			</div>
+
+			<br/>
+
+			<p>
+				You can set the title through options too. This will override any title you set in the template.
+			</p>
+			<p>
+				There are many more options. To cover them all let's first have a look at the defaults:
+			</p>
+
+
+			<div class="reference ui-state-highlight ui-helper-clearfix">
+
+				<div class="code">
+$.fn.expandable.defaults = {
+	startopen: false,
+	title: null,
+	tooltip: "Click to expand",
+	uiIconClosed: "ui-icon-triangle-1-e",
+	uiIconOpen: "ui-icon-triangle-1-s",
+	animationClose: { height: "hide" },
+	animationOpen: { height: "show" },
+	duration: "normal",
+	easing: "swing",
+	open: null,
+	closed: null,
+	opening: null,
+	closing: null,
+	headerClick: null,
+	headerHover: function(over, event)
+	{
+		if ( over ) {
+			$(this)
+			.removeClass("ui-state-default")
+			.addClass("ui-state-hover");
+		} else {
+			$(this)
+			.removeClass("ui-state-hover")
+			.addClass("ui-state-default");
+		}
+	},
+	extraicon: null,
+	extraiconClick: null,
+	extraiconHover: function(over, event, options) {
+		if ( over ) {
+			$(this).addClass("ui-state-hover");
+		} else {
+			$(this).removeClass("ui-state-hover");
+		}
+	},
+	iconMarginTop: null,
+	iconMarginBottom: null
+};
+				</div>
+
+				<div class="text">
+					<br/>
+					<br/>
+					whether to initially show the content. <span class="type">Boolean</span><br/>
+					the title in the header of the expandable. <span class="type">String</span><br/>
+					the tooltip that appears when you mouseover the header. <span class="type">String</span><br/>
+					the CSS class for the left icon in closed state. <span class="type">String</span><br/>
+					the CSS class for the left icon in open state. <span class="type">String</span><br/>
+					properties for the jQuery animate function when closing. <span class="type">Object</span><br/>
+					properties for the jQuery animate function when opening. <span class="type">Object</span><br/>
+					the duration for the jQuery animate function. <span class="type">Number, String</span><br/>
+					the easing to apply in the jQuery animate function. <span class="type">String</span><br/>
+					callback when opening has completed. <span class="type">Function</span><br/>
+					callback when closing has completed. <span class="type">Function</span><br/>
+					callback before opening. <span class="type">Function</span><br/>
+					callback before closing. <span class="type">Function</span><br/>
+					callback when header is clicked. <span class="type">Function</span><br/>
+					callback when mouse enters and leaves the header. <span class="type">Function</span><br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					the CSS class for the right icon. <span class="type">String</span><br/>
+					callback when right icon is clicked. <span class="type">Function</span><br/>
+					callback when mouse enters and leaves the right icon. <span class="type">Function</span><br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					margin on header icons if innerHeight of the header is 0. <span class="type">Number</span><br/>
+					margin on header icons if innerHeight of the header is 0. <span class="type">Number</span><br/>
+				</div>
+
+			</div>
+
+			<br/>
+
+			<p>
+				Here is an example of an expandable with most options customized:
+			</p>
+
+			<!-- HTML TEMPLATE 2, no title mark up -->
+
+			<div id="container-2">
+				custom tooltip<br/>
+				start opened or closed<br/>
+				callbacks for: closing, opening, open, closed, headerClick, headerHover, extraiconClick and extraiconHover<br/>
+				extra icon on the right (.ui-expandable-extraicon)<br/>
+				title set programmatically<br/>
+				using icons from jQuery UI (1.6rc4+)<br/>
+				customized animation (but same as default, in this example)
+			</div>
+
+			<!-- END HTML TEMPLATE 2 -->
+
+			<h3>Other options</h3>
+
+			<p>
+				Three more options exist to manipulate the expandable or get information from it:
+			</p>
+
+			<div class="code ui-state-highlight">
+$(selector).expandable("open");
+$(selector).expandable("close");
+$(selector).expandable("state");
+$(selector).expandable("destroy");
+			</div>
+
+			<p>
+				"Open" and "close" do exactly what you'd expect from them, they open and close the expandable, firing all the callbacks except "headerClick".<br/>
+				"State" returns one of the strings "opening", "open", "closing" and "closed".<br/>
+				"Destroy" restores the HTML code to its pre-expandable state.
+		</div>
+
+
+		<div id="tabs-3">
+
+			<p>
+				Currently the widget relies, but does not depend on jQuery UI. This means it can also be used without the UI files.
+				For the most part, you just have to style the widget with your own CSS to set borders, paddings, etc. This may be what you want anyway.
+				Be aware however, that future releases (> v0.5) probably <span class="em">will</span> depend on jQuery UI.
+			<p>
+
+			<p>
+				These are the classes used in the expandable:
+			</p>
+
+			<div class="code ui-state-highlight">
+&lt;div class="ui-expandable ui-widget"&gt;
+	&lt;div class="ui-state-default ui-widget-header"&gt;
+		&lt;div class="ui-expandable-icon ui-icon [ui-icon-circle-triangle-s]"&gt;&lt;/div&gt;
+		&lt;div class="ui-expandable-title"&gt;Title&lt;/div&gt;
+		&lt;div class="ui-expandable-extraicon"&gt;
+			&lt;span class="ui-icon [ui-icon-close]"&gt;&lt;/span&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div class="ui-widget-content ui-helper-clearfix"&gt;
+		Content
+	&lt;/div&gt;
+&lt;/div&gt;
+			</div>
+
+			<p>
+				By default the content in the expandable has the following padding:
+			</p>
+
+			<div class="code ui-state-highlight">
+.ui-expandable .ui-widget-content {
+	padding: 11px 18px 13px 18px;
+}
+			</div>
+
+			<p>
+				For the rest, please have a look at the ui.expandable.css file. It's short and easy to understand.
+				It's no big deal to override the default styles with your own style sheet.
+				And using the callbacks it's easy to dynamically add and remove custom interaction classes in the structure as well.
+			</p>
+			<p>
+				Below you you have an example of an expandable that has almost all of the CSS rules overridden by local, static rules in this document.
+			</p>
+
+			<div id="container-4">
+				<img class="domo" src="documentation_files/domo_kun.jpg" width="100" height="85">
+				some
+				<div>trickier<span>, nested</span></div>
+				<span>content with a floated image and</span><br/>
+				reversed icons (also set in CSS)
+			</div>
+
+			<h3>Floats</h3>
+
+			<p>
+				If you're not using jQuery UI and having trouble with content containers ignoring the height of floats
+				try the rule below.<br/>
+				If using jQuery UI the class/rule '.ui-helper-clearfix' fixes this for you (in different, possibly better way).
+				Note: this problem is not specific to the Expandable Widget itself but to CSS.
+			<p>
+			<p>
+				info: <a href="http://www.quirksmode.org/css/clearing.html">http://www.quirksmode.org/css/clearing.html</a>
+			</p>
+
+			<div class="code ui-state-highlight">
+#your-selector.ui-expandable .ui-widget-content {
+	overflow:hidden;
+	width: 100%;
+}
+			</div>
+
+		</div>
+
+
+		<div id="tabs-4">
+			One-time options, icon bug
+
+			<li>
+				If the content of the unfinished expandable is visible on page load
+				(maybe your scripts are doing a lot of work) you can put a display:none
+				on the expandable. It will as soon as it's finished.
+			</li>
+			<li>
+				Some of your questions may be answered when you look at the code of this page. (eg. title, options, callbacks)
+			</li>
+		</div>
+	</div>
+
+
+
+</body>
+</html>
